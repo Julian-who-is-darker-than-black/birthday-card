@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>С Днём Рождения!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Добавьте сюда весь CSS из вашего файла style.css */
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        .card {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        /* Стили для конверта */
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background: #e74c3c;
+            margin: 0 auto;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .envelope:hover {
+            transform: scale(1.05);
+        }
+
+        .envelope .flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 100px solid #c0392b;
+            border-radius: 10px 10px 0 0;
+            transform-origin: top;
+            transition: transform 0.5s ease;
+        }
+
+        .envelope:hover .flap {
+            transform: rotateX(180deg);
+        }
+
+        .heart {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 3rem;
+            animation: pulse 1.5s infinite;
+        }
+
+        .click-hint {
+            text-align: center;
+            margin-top: 20px;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        /* Стили для внутренней части открытки */
+        .card-inside {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 500px;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            z-index: 10;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .card-inside.hidden {
+            display: none;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #95a5a6;
+        }
+
+        .close-btn:hover {
+            color: #e74c3c;
+        }
+
+        .content h1 {
+            color: #e74c3c;
+            margin-bottom: 20px;
+        }
+
+        .decoration {
+            font-size: 3rem;
+            color: #f39c12;
+            margin: 20px 0;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .message {
+            line-height: 1.6;
+            color: #2c3e50;
+            text-align: left;
+            margin-bottom: 25px;
+        }
+
+        .signature {
+            margin-top: 20px;
+            font-style: italic;
+            color: #7f8c8d;
+            text-align: right;
+        }
+
+        /* Кнопка для музыки */
+        .music-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #9b59b6;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .music-btn:hover {
+            background: #8e44ad;
+        }
+
+        /* Стили для стихотворений */
+        .poem {
+            white-space: pre-wrap;
+            text-align: center;
+            font-family: 'Times New Roman', serif;
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border-left: 3px solid #ff6b6b;
+        }
+        
+        .poem-section {
+            margin: 30px 0;
+        }
+        
+        /* Стили для раздела о музыке */
+        .music-info {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #9b59b6;
+            text-align: left;
+        }
+        
+        .music-info h3 {
+            color: #9b59b6;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        
+        .code-block {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 15px 0;
+            text-align: left;
+        }
+        
+        .strudel-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .strudel-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Стилизация полосы прокрутки */
+        .card-inside::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .card-inside::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        .card-inside::-webkit-scrollbar-thumb {
+            background: #ff6b6b;
+            border-radius: 4px;
+        }
+        
+        .card-inside::-webkit-scrollbar-thumb:hover {
+            background: #ff5252;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <!-- Конверт -->
+        <div class="envelope" id="envelope">
+            <div class="flap"></div>
+            <div class="heart"><i class="fas fa-heart"></i></div>
+            <p class="click-hint">Нажми на конверт!</p>
+        </div>
+
+        <!-- Сама открытка -->
+        <div class="card-inside hidden" id="cardInside">
+            <button class="close-btn" id="closeBtn">&times;</button>
+            <div class="content">
+                <h1>С Днём Рождения!</h1>
+                <div class="decoration">
+                    <i class="fas fa-birthday-cake"></i>
+                </div>
+                <p class="message">
+                    Тамара<br><br>
+                    С днём рождения!
+                    Ты много для меня значишь, я тебя люблю. Желаю, чтобы ты становилась лучше, чтобы всё получалось и чтобы тебе это нравилось. И я очень хочу быть частью этого пути и поддерживать тебя во всём.<br><br>
+                    <strong>P.S. Каждый момент с тобой — это настоящее счастье.</strong>
+                </p>
+                
+                <!-- Первое стихотворение -->
+                <div class="poem-section">
+                    <div class="poem">
+Не дева ль ты из сада снов,    
+Чьи очи — предел и бытие        
+В них солнца пламя и покров     
+Ночной таинственного бытия.
+Взглянул — и рухнула тюрьма,
+Где дух мой спал, скован цепями,
+И вмиг душа вознеслась к звездам,
+Став вечной, полной небесами.
+
+Твой голос — струны сфер самих,
+Что вечности поют хвалы,
+Мой слух земной постиг их стих
+И в нем нашел свои скрижали.
+И в каждом слове, что светло,
+Цветок бессмертья прорастает,
+И сердце, что в груди застыло,
+Как тигр, в чьей гриве — урагана сила.
+
+Так прикоснись же к моей руке
+Не пальцами — лучом заката,
+Чтоб на печальном пилигриме
+Зажглась твоя святая плата.
+И пусть наш мир, что тесен был,
+Расширится до края рая,
+Где две души один скомкнули пыл
+Пред ликом Вечности, сгорая.
+                    </div>
+                </div>
+
+            </div>
+            <!-- Кнопка для музыки -->
+            <button class="music-btn" id="musicBtn">
+                <i class="fas fa-music"></i> Включить музыку
+            </button>
+            
+            <!-- Раздел о музыке -->
+            <div class="music-info">
+                <h3><i class="fas fa-info-circle"></i> О музыке</h3>
+                <p>Музыка написана мной, но основу я искал в произведении Ференца Листа «Грёзы любви» (Ноктюрн №3). Взяв за основу фрагмент его нот, я создал код для Strudel REPL, который потом записал в MP3.</p>
+                
+                <h4>Что такое Strudel REPL?</h4>
+                <p>Strudel REPL — это онлайн-площадка для создания музыки с помощью кода. Представ себе это как музыкальный конструктор, где вы собираете звуки, записывая простые команды на языке JavaScript.</p>
+                
+                <h4>Как это работает?</h4>
+                <ul>
+                    <li>Вы пишете код (например, ноту или ритм)</li>
+                    <li>Нажимаете кнопку воспроизведения</li>
+                    <li>Сразу же слышите, что у вас получилось</li>
+                </ul>
+                <p>Самое главное — вы можете менять код на лету, и музыка будет меняться в реальном времени, без остановки. Это похоже на живую импровизацию, но вместо инструмента у вас — клавиатура.</p>
+                
+                <a href="https://strudel.cc/" target="_blank" class="strudel-link">
+                    <i class="fas fa-external-link-alt"></i> Посетить Strudel REPL
+                </a>
+                
+                <h4>Код, который я написал для этой музыки:</h4>
+                <div class="code-block">
+// Настройка тональности (оригинал - Ля-бемоль мажор)<br>
+scale('ab major')<br><br>
+
+// Основная мелодия<br>
+const melody = note(`<br>
+  [eb5] [eb5] [eb5] [eb5] [eb5] [eb5] <br>
+  [f5] [eb5] [db5] [c5] [db5] [eb5]<br>
+  [ab4] [ab4] [ab4] [ab4] [ab4] [ab4]<br>
+  [bb4] [ab4] [g4] [f4] [g4] [ab4]<br>
+  [eb5] [eb5] [eb5] [eb5] [eb5] [eb5]<br>
+  [f5] [eb5] [db5] [c5] [db5] [eb5]<br>
+  [ab5] [g5] [f5] [eb5] [db5] [c5]<br>
+  [bb4] [ab4] [g4] [f4] [eb4] [db4]<br>
+`).slow(10).gain(0.4)<br><br>
+
+// Аккомпанемент<br>
+const accompaniment = note(`<br>
+  [ab3 eb4 ab4] [ab3 eb4 ab4] [ab3 eb4 ab4] [ab3 eb4 ab4]<br>
+  [bb3 f4 bb4] [bb3 f4 bb4] [ab3 eb4 ab4] [ab3 eb4 ab4]<br>
+  [eb3 bb3 eb4] [eb3 bb3 eb4] [ab3 eb4 ab4] [ab3 eb4 ab4]<br>
+  [db3 ab3 db4] [db3 ab3 db4] [c3 g3 c4] [c3 g3 c4]<br>
+  [ab3 eb4 ab4] [ab3 eb4 ab4] [ab3 eb4 ab4] [ab3 eb4 ab4]<br>
+  [bb3 f4 bb4] [bb3 f4 bb4] [ab3 eb4 ab4] [ab3 eb4 ab4]<br>
+  [eb3 bb3 eb4] [eb3 bb3 eb4] [ab3 eb4 ab4] [ab3 eb4 ab4]<br>
+  [db3 ab3 db4] [db3 ab3 db4] [c3 g3 c4] [c3 g3 c4]<br>
+`).slow(60).gain(0.3)<br><br>
+
+// Собираем композицию с реверберацией <br>
+stack(<br>
+  melody.room(0.8).size(0.7),<br>
+  accompaniment.room(0.6)<br>
+)
+                </div>
+            </div>
+            
+            <audio id="birthdayAudio" loop>
+                <source src="strudel_melody.mp3" type="audio/mpeg">
+                Ваш браузер не поддерживает аудио элемент.
+            </audio>
+                 <div class="signature">
+                    <p>С любовью, Юлиан</p>
+                </div>       
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const envelope = document.getElementById('envelope');
+            const cardInside = document.getElementById('cardInside');
+            const closeBtn = document.getElementById('closeBtn');
+            const musicBtn = document.getElementById('musicBtn');
+            const audio = document.getElementById('birthdayAudio');
+            let isMusicPlaying = false;
+
+            // Открытие открытки при клике на конверт
+            envelope.addEventListener('click', function() {
+                cardInside.classList.remove('hidden');
+                envelope.style.display = 'none';
+            });
+
+            // Закрытие открытки
+            closeBtn.addEventListener('click', function() {
+                cardInside.classList.add('hidden');
+                envelope.style.display = 'block';
+                if (isMusicPlaying) {
+                    audio.pause();
+                    musicBtn.innerHTML = '<i class="fas fa-music"></i> Включить музыку';
+                    isMusicPlaying = false;
+                }
+            });
+
+            // Управление музыкой
+            musicBtn.addEventListener('click', function() {
+                if (isMusicPlaying) {
+                    audio.pause();
+                    musicBtn.innerHTML = '<i class="fas fa-music"></i> Включить музыку';
+                } else {
+                    audio.play().catch(function(error) {
+                        console.log('Автовоспроизведение заблокировано: ', error);
+                        alert('Нажмите "Включить музыку" еще раз для воспроизведения');
+                    });
+                    musicBtn.innerHTML = '<i class="fas fa-stop"></i> Выключить музыку';
+                }
+                isMusicPlaying = !isMusicPlaying;
+            });
+        });
+    </script>
+</body>
+</html>
